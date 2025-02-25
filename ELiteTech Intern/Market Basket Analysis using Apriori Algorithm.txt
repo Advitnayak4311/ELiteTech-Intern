@@ -1,0 +1,41 @@
+Market Basket Analysis using Apriori Algorithm
+Steps:
+✅ Load sample transaction data
+✅ Convert data into a format suitable for analysis
+✅ Apply Apriori Algorithm to find frequent itemsets
+✅ Generate Association Rules (e.g., "If a customer buys Milk, they also buy Bread")
+
+📌 Libraries Required:
+Install dependencies using:
+
+bash
+Copy
+Edit
+
+
+
+import pandas as pd
+from mlxtend.frequent_patterns import apriori, association_rules
+
+# Sample transaction dataset
+transactions = [
+    ['Milk', 'Bread', 'Butter'],
+    ['Milk', 'Diaper', 'Beer', 'Eggs'],
+    ['Milk', 'Bread', 'Diaper', 'Beer'],
+    ['Bread', 'Butter', 'Diaper'],
+    ['Milk', 'Bread', 'Butter', 'Diaper']
+]
+
+# Convert dataset to a DataFrame with one-hot encoding
+items = sorted(set(item for transaction in transactions for item in transaction))
+df = pd.DataFrame([{item: (item in transaction) for item in items} for transaction in transactions])
+
+# Apply Apriori Algorithm
+frequent_itemsets = apriori(df, min_support=0.4, use_colnames=True)
+
+# Generate Association Rules
+rules = association_rules(frequent_itemsets, metric="lift", min_threshold=1)
+
+# Display Results
+print("\nFrequent Itemsets:\n", frequent_itemsets)
+print("\nAssociation Rules:\n", rules[['antecedents', 'consequents', 'support', 'confidence', 'lift']])

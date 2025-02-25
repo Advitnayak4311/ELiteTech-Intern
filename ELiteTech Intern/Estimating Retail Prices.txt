@@ -1,0 +1,30 @@
+Estimating Retail Prices
+📌 Steps: Calculate total cost, add markup, and analyze competitor pricing.
+📌 Libraries: pandas, matplotlib
+
+
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Sample data
+data = {'Product': ['A', 'B', 'C'],
+        'Cost Price': [50, 70, 90],
+        'Markup %': [30, 25, 40]}
+
+df = pd.DataFrame(data)
+df['Selling Price'] = df['Cost Price'] * (1 + df['Markup %'] / 100)
+
+# Competitor pricing (sample)
+competitor_prices = {'A': 75, 'B': 92, 'C': 130}
+
+df['Competitor Price'] = df['Product'].map(competitor_prices)
+
+# Visualization
+df.plot(x='Product', y=['Selling Price', 'Competitor Price'], kind='bar')
+plt.title("Price Comparison")
+plt.ylabel("Price in $")
+plt.show()
+
+
+

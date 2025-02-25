@@ -1,0 +1,24 @@
+Analyzing Customer Feedback
+📌 Steps: Sentiment Analysis using TextBlob and categorizing feedback.
+📌 Libraries: pandas, textblob, matplotlib
+
+
+
+
+import pandas as pd
+from textblob import TextBlob
+import matplotlib.pyplot as plt
+
+# Sample feedback data
+feedback = ["Great product!", "Terrible customer service", "Okay experience", "Loved it!", "Would not recommend"]
+df = pd.DataFrame({'Feedback': feedback})
+
+# Sentiment Analysis
+df['Sentiment Score'] = df['Feedback'].apply(lambda x: TextBlob(x).sentiment.polarity)
+df['Sentiment'] = df['Sentiment Score'].apply(lambda x: 'Positive' if x > 0 else ('Negative' if x < 0 else 'Neutral'))
+
+# Sentiment count
+sentiment_counts = df['Sentiment'].value_counts()
+sentiment_counts.plot(kind='bar', color=['green', 'red', 'gray'])
+plt.title("Customer Sentiment Analysis")
+plt.show()

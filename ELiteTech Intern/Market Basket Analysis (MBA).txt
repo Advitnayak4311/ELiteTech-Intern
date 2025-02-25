@@ -1,0 +1,20 @@
+ Market Basket Analysis (MBA)
+Using the Apriori Algorithm to find frequently bought-together items.
+
+
+import pandas as pd
+from mlxtend.frequent_patterns import apriori, association_rules
+
+# Sample transaction dataset
+data = {'Transaction': [1, 1, 2, 2, 3, 3, 4, 4],
+        'Item': ['Milk', 'Bread', 'Milk', 'Butter', 'Bread', 'Butter', 'Milk', 'Bread']}
+df = pd.DataFrame(data)
+
+# Convert to transaction format
+df_pivot = df.pivot_table(index='Transaction', columns='Item', aggfunc=lambda x: 1, fill_value=0)
+
+# Apply Apriori Algorithm
+frequent_itemsets = apriori(df_pivot, min_support=0.5, use_colnames=True)
+rules = association_rules(frequent_itemsets, metric="lift", min_threshold=1)
+
+print(rules[['antecedents', 'consequents', 'support', 'confidence', 'lift']])
